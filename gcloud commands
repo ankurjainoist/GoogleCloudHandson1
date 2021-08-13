@@ -4,10 +4,15 @@ gcloud auth login
 #List all service accounts
 gcloud iam service-accounts list
 
+
 #create new service account
 gcloud iam service-accounts create abc \
     --description="DESCRIPTION" \
     --display-name="DISPLAY_NAME"
     
 gcloud iam service-accounts create virtualmachinefetch --description="service account to access VM" --display-name="accessallVMs"
+
+#Install python libraries for GCP storage service
+pip3 install --upgrade google-cloud-storage
+
 
