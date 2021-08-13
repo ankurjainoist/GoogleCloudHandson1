@@ -14,7 +14,7 @@ pip3 install --upgrade google-cloud-storage
 2. **Setup service account** in GCP Account using IAM service. Grant **Storage Admin role** access to service account. **Download the Service Account keys in JSON** to your local machine. <br />	 
 ![image](https://user-images.githubusercontent.com/52160164/129404748-50ddcea8-5850-4bb2-957a-f6a27dfc5144.png)
 
-3. Create Python script to fetch all storage buckets in GCP account ==> Link: 
+3. Create short [Python script](https://github.com/ankurjainoist/GoogleCloudHandson1/blob/806cbb4a051405b5e5c3cfde6b86eca74fa9f895/storage_list.py) to fetch all storage buckets in GCP account   
 ![image](https://user-images.githubusercontent.com/52160164/129405129-4bcecb62-09ff-473a-a8a9-8594f3e4940a.png)
 
 4. Run the script and display the results. <br />	
