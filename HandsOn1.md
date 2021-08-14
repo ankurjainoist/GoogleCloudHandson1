@@ -7,7 +7,7 @@ As a Cloud Specialist in a Company that uses Google Cloud Services, your task is
 
 1. Install Python latest version and Google SDK on your local machine. Also install python libraries for GCP Storage services 	<br />	
 ![image](https://user-images.githubusercontent.com/52160164/129404644-dcf13df8-1f9a-4609-83e4-4222446a3546.png) <br />
-pip3 install --upgrade google-cloud-storage
+pip3 install --upgrade google-cloud-storage <br />	
 ![image](https://user-images.githubusercontent.com/52160164/129405110-ae79d80d-872e-4ae2-8abe-864b7db23946.png)
 
 													
