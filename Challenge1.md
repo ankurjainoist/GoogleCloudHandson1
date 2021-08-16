@@ -1,9 +1,9 @@
-**Challenge1:** <br />
-**Requirement:** <br />
+# **Challenge1:** <br />
+# **Requirement:** <br />
 As a Cloud Specialist in a Company that uses Google Cloud Services, your task is to query inside Google Cloud Architecture quickly and efficiently. Your query should fetch all the VM's inside GCP. 
 ![image](https://user-images.githubusercontent.com/52160164/129404250-0a5dfd3c-1b11-48e2-b4b7-8ddf498aa149.png)
 
-**Prerequisites:**<br />
+# **Prerequisites:**<br />
 
 1. Install Python latest version and Google SDK on your local machine. Also google API python libraries	<br />	
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
