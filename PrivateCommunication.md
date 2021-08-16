@@ -62,5 +62,29 @@ gcloud config set project tcb-gcp-aws-007
 cat /home/ankurjainoistgcp/hands-on-tcb-bmc-gcp/terraform/terraform.tfvars
 ![image](https://user-images.githubusercontent.com/52160164/129614098-8315aa72-53f2-4b0e-910c-c6d167db651c.png)
 
+**Generating a Key Pairs**
+
+1. Run below command to create new SSH key to access VM
+ssh-keygen -t rsa -f ~/.ssh/vm-ssh-key -C ankurjainoistgcp
+![image](https://user-images.githubusercontent.com/52160164/129614730-5ad5b84e-8046-4f21-bc79-9488f8bc7c04.png)
+
+2. Set up permission for private key
+chmod 400 ~/.ssh/vm-ssh-key
+![image](https://user-images.githubusercontent.com/52160164/129614839-7d9272f4-cb82-42a7-844e-4436dfa5d792.png)
+
+**Importing Public Key to GCP**
+
+1. Run below command and this will add the key to SSH Keys to the compute engine/Metadata
+gcloud compute config-ssh --ssh-key-file=~/.ssh/vm-ssh-key
+![image](https://user-images.githubusercontent.com/52160164/129615511-2bbc5243-c4c4-47bd-a41a-0db319190dbb.png)
+
+**Importing Public Key to AWS**
+1. Download the public key from Google CLoud SHell 
+/home/ankurjainoistgcp/.ssh/vm-ssh-key.pub
+![image](https://user-images.githubusercontent.com/52160164/129616448-b628e48f-1bc7-4c88-ab9d-ccf053e9e882.png)
+
+2. Create KeyPair in AWS 
+![image](https://user-images.githubusercontent.com/52160164/129617064-1315989b-9681-4bad-b057-8dc845005f40.png)
+
 
 
