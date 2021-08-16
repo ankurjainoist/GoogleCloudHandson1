@@ -39,3 +39,28 @@ unzip hands-on-tcb-bmc-gcp.zip
 ![image](https://user-images.githubusercontent.com/52160164/129611026-e2c5ae04-3c05-47f6-82af-8470a7cd57f0.png)
 This will allow Terraform to access GCP to create the resources. 
 
+**Creating Credentials in AWS**
+1. Create User in IAM and provide Admin Access and download .csv file
+![image](https://user-images.githubusercontent.com/52160164/129611885-652c4552-4aab-4a44-86ec-bf459d0331ef.png)
+
+2. Upload the Keys to cloud shell and run ./aws_set_credentials.sh ~/accessKeys.csv
+![image](https://user-images.githubusercontent.com/52160164/129612407-6a44da3b-9bc9-4964-9b0b-e9decf56223d.png)
+
+**Getting TERRAFORM Ready**
+1. Run command in the project where we have all terra form .sh files are present (downloaded in previous steps)
+![image](https://user-images.githubusercontent.com/52160164/129613162-0cd7a8db-a30b-4f3d-a5f3-cbdeb02c63be.png)
+
+2. Setting up Project ID by running 
+gcloud config set project tcb-gcp-aws-007
+![image](https://user-images.githubusercontent.com/52160164/129613483-e04160c3-fce8-4d53-9254-000bdbc5afcc.png)
+
+3. Run command to setup project ID in Terraform.tfvars file
+./gcp_set_project.sh
+![image](https://user-images.githubusercontent.com/52160164/129613720-200ec424-a41f-45e4-808d-a021c479586a.png)
+
+4. Validate the Project name by checking the terraform.tfvars file
+cat /home/ankurjainoistgcp/hands-on-tcb-bmc-gcp/terraform/terraform.tfvars
+![image](https://user-images.githubusercontent.com/52160164/129614098-8315aa72-53f2-4b0e-910c-c6d167db651c.png)
+
+
+
