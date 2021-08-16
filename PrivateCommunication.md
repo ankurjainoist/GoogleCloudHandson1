@@ -4,4 +4,38 @@ As a Cloud Specialist, need to interconnect the AWS and GCP Architecture in Priv
 ![image](https://user-images.githubusercontent.com/52160164/129602899-e8ea3df0-1c20-4b82-b250-cb6d2ac8fda0.png)
 
 **Pre requisite:**
+1. Create AWS Tier Account
+![image](https://user-images.githubusercontent.com/52160164/129603307-747bee7e-edef-4ed8-a6e7-186bab046fe0.png)
+
+**Steps:**
+1. Create New GCP Project and Add Billing account to same
+![image](https://user-images.githubusercontent.com/52160164/129603814-4fa6a403-a0c7-43bc-ab78-988d53e19536.png)
+Project ID: tcb-gcp-aws-007
+Name: tcb-gcp-aws
+
+2. Enable Compute Engine API using below link
+https://console.cloud.google.com/flows/enableapi?apiid=compute_component,deploymentmanager&_ga=2.90885017.2003023334.1613150551-112422406.1602704538
+
+![image](https://user-images.githubusercontent.com/52160164/129604810-398527e2-a51f-4936-9a52-0273a0319eac.png)
+
+3. Run Command in cloudshell to download all project files to direct use the same in our project
+curl -O https://storage.googleapis.com/bootcamp-gcp-public/hands-on-tcb-bmc-gcp.zip
+![image](https://user-images.githubusercontent.com/52160164/129608050-0cb513f3-85ab-4c3c-aed5-ecfe9d0fb68f.png)
+
+4. Unzip the ZIP file and accessing the same
+unzip hands-on-tcb-bmc-gcp.zip
+![image](https://user-images.githubusercontent.com/52160164/129608202-28a897ad-b964-43a7-8721-0efc66366378.png)
+![image](https://user-images.githubusercontent.com/52160164/129608397-996d9e62-875c-458b-84fa-f9d3fed4855d.png)
+
+
+5. Allowing execute permission for all files .sh
+![image](https://user-images.githubusercontent.com/52160164/129608491-d7c188d7-1487-4fa4-8718-ce1b9730f7ef.png)
+
+**Creating credentials in the GCP**
+1. Downlaod the keys in JSON format for the Default Service Account i.e. Compute Engine Default Service account
+ ![image](https://user-images.githubusercontent.com/52160164/129608955-dcc10132-0f5b-40d5-8b03-3eda718b7bcb.png)
+
+2. Upload keys file and run ./gcp_set_credentials.sh ~/tcb-gcp-aws-007-7abd2c33035b.json
+![image](https://user-images.githubusercontent.com/52160164/129611026-e2c5ae04-3c05-47f6-82af-8470a7cd57f0.png)
+This will allow Terraform to access GCP to create the resources. 
 
