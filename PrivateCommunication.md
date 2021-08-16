@@ -1,13 +1,13 @@
-**Requirement:**
+# **Requirement:**
 As a Cloud Specialist, need to interconnect the AWS and GCP Architecture in Private way. 
 
 ![image](https://user-images.githubusercontent.com/52160164/129602899-e8ea3df0-1c20-4b82-b250-cb6d2ac8fda0.png)
 
-**Pre requisite:**
+# **Pre requisite:**
 1. Create AWS Tier Account
 ![image](https://user-images.githubusercontent.com/52160164/129603307-747bee7e-edef-4ed8-a6e7-186bab046fe0.png)
 
-**Steps:**
+# **Steps:**
 1. Create New GCP Project and Add Billing account to same
 ![image](https://user-images.githubusercontent.com/52160164/129603814-4fa6a403-a0c7-43bc-ab78-988d53e19536.png)
 Project ID: tcb-gcp-aws-007
