@@ -117,6 +117,184 @@ Change the permission
 ![image](https://user-images.githubusercontent.com/52160164/130366486-c2796f1e-ad0e-44c1-bae7-0dcd3ee72636.png)
 
 
+**# Modernization Steps**
+
+1. Create GKE Cluster using gcloud command
+
+**gcloud container clusters create app-01 --project=$DEVSHELL_PROJECT_ID --zone=us-west1-a --machine-type n1-standard-4 --cluster-version=1.19.12 
+--release-channel=stable --image-type ubuntu --num-nodes 1 --enable-stackdriver-kubernetes 
+--subnetwork "projects/$DEVSHELL_PROJECT_ID/regions/us-west1/subnetworks/default"**
+
+
+![image](https://user-images.githubusercontent.com/52160164/130496475-6339cce9-a29d-450c-9e84-8ae612329dac.png)
+
+2. Installing the **Migrate for Anthos**
+
+Create service account
+
+**gcloud iam service-accounts create tcb-m4a-install \
+> --project=$DEVSHELL_PROJECT_ID**
+
+![image](https://user-images.githubusercontent.com/52160164/130496917-017dce84-b1e7-4716-b617-ee5b31c1ee3b.png)
+
+Assign storage admin role to service account just created
+
+**gcloud projects add-iam-policy-binding $DEVSHELL_PROJECT_ID \--member="serviceAccount:tcb-m4a-install@$DEVSHELL_PROJECT_ID.iam.gserviceaccount.com" \--role="roles/storage.admin"**
+
+![image](https://user-images.githubusercontent.com/52160164/130497192-4fed721f-a4d1-4a1d-9ae1-997807ecc5b0.png)
+
+Create and download the keys of the service account
+
+**gcloud iam service-accounts keys create tcb-m4a-install.json \--iam-account=tcb-m4a-install@$DEVSHELL_PROJECT_ID.iam.gserviceaccount.com \--project=$DEVSHELL_PROJECT_ID
+**
+![image](https://user-images.githubusercontent.com/52160164/130497420-ff57a3fb-5c8f-4087-80b0-098c65049131.png)
+
+Connecting to Kubernetes Cluster
+
+**gcloud container clusters get-credentials app-01 \--zone us-west1-a --project $DEVSHELL_PROJECT_ID**
+
+Cluster now created
+
+![image](https://user-images.githubusercontent.com/52160164/130497584-d49b643e-6eef-42f0-949c-a7bb43e886b9.png)
+
+![image](https://user-images.githubusercontent.com/52160164/130497686-537caff6-d0bf-4617-8268-8ffc77efd1bc.png)
+
+
+Setting up **Migrate for Anthos** components in **GKE Cluster app-01**
+
+**migctl setup install --json-key=tcb-m4a-install.json**
+
+![image](https://user-images.githubusercontent.com/52160164/130498468-60dcae13-4781-4dcb-ac9d-1285b9f94e7b.png)
+
+Run **'migctl doctor'** command to validate **'Migrate for Anthos'** installation
+
+![image](https://user-images.githubusercontent.com/52160164/130499421-58f08496-fcae-4996-a800-facf7da2ab23.png)
+
+# **STEPS for VM Migration**
+
+Creating service account 
+
+**gcloud iam service-accounts create tcb-m4a-ce-src \--project=$DEVSHELL_PROJECT_ID**
+
+![image](https://user-images.githubusercontent.com/52160164/130499921-b91b54a4-7fd7-46fc-ab8e-ca6dd5aada96.png)
+
+Assign role **compute.viewer** and **compute.storageAdmin** to service account
+
+**gcloud projects add-iam-policy-binding $DEVSHELL_PROJECT_ID \--member="serviceAccount:tcb-m4a-ce-src@$DEVSHELL_PROJECT_ID.iam.gserviceaccount.com" \--role="roles/compute.viewer"
+**
+
+![image](https://user-images.githubusercontent.com/52160164/130500188-b508262f-6c34-45e7-9149-32fbe23b15e0.png)
+
+**gcloud projects add-iam-policy-binding $DEVSHELL_PROJECT_ID \--member="serviceAccount:tcb-m4a-ce-src@$DEVSHELL_PROJECT_ID.iam.gserviceaccount.com" \--role="roles/compute.storageAdmin"
+**
+
+Creating and Downloading the Service Account Key for above service account
+
+**gcloud iam service-accounts keys create tcb-m4a-ce-src.json \--iam-account=tcb-m4a-ce-src@$DEVSHELL_PROJECT_ID.iam.gserviceaccount.com \--project=$DEVSHELL_PROJECT_ID
+**
+
+![image](https://user-images.githubusercontent.com/52160164/130500541-3c43781d-c4f3-49b1-8adf-56305ebf4e00.png)
+
+Defining Compute Engine (CE) as Source
+
+**migctl source create ce app-01-source --project $DEVSHELL_PROJECT_ID \--json-key=tcb-m4a-ce-src.json**
+
+![image](https://user-images.githubusercontent.com/52160164/130500894-2087ee17-8cad-42a0-b562-0843ef681666.png)
+
+# **Creating/Downloading and Checking the Migration Plan**
+
+Source name: **app-01-source**
+
+Creating the migration plan
+
+**migctl migration create my-migration --source app-01-source \--vm-id app-01 --intent Image**
+
+![image](https://user-images.githubusercontent.com/52160164/130501362-e16b6c17-9f56-4b5f-b4af-5568dc661871.png)
+
+Checking the migration status
+
+![image](https://user-images.githubusercontent.com/52160164/130501473-d440f055-9608-47b3-963b-7eef5d9cbdf8.png)
+
+**(Optional)** We can download the migration plan by using below command
+
+![image](https://user-images.githubusercontent.com/52160164/130501648-dc7beaa7-46d5-4ede-8259-8f5ac91e68ac.png)
+
+**(Optional)** If want to edit , use **vi my-migration.yaml** command and to update the migration plan run below command
+
+**migctl migration update my-migration --file my-migration.yaml**
+
+Migrating the VM using migration Plan
+
+**migctl migration generate-artifacts my-migration**
+
+![image](https://user-images.githubusercontent.com/52160164/130502374-0d7ef59e-a65c-4333-a652-f033bfb7ab93.png)
+
+Check the status 
+
+**migctl migration status my-migration**
+
+![image](https://user-images.githubusercontent.com/52160164/130502808-f464bbdd-f1ff-47b8-ba19-ca032c57bae8.png)
+
+
+# **Steps to deploy the migrated workload**
+
+Download the artifacts
+
+![image](https://user-images.githubusercontent.com/52160164/130502922-a5fe41a8-b0d1-4427-96ac-109b8bf0e63a.png)
+
+![image](https://user-images.githubusercontent.com/52160164/130503224-1df432e6-1bb3-4136-9b9f-964c15cce94b.png)
+
+Open the **deployment_spec.yaml** file and add below lines in green
+
+![image](https://user-images.githubusercontent.com/52160164/130503385-4ccecec2-b43b-475b-9e51-3ccfa0552329.png)
+
+![image](https://user-images.githubusercontent.com/52160164/130503901-b09f97e8-f03a-47f7-aaf1-42c7bf634c89.png)
+
+_apiVersion: v1
+kind: Service
+metadata:
+   name: talent-management-portal
+spec:
+  selector:
+     app: app-01
+  ports:
+     - protocol: TCP
+       port: 80
+       targetPort: 80
+  type: LoadBalancer_
+
+Now apply the change and deploy the workload
+
+**kubectl apply -f deployment_spec.yaml**
+
+![image](https://user-images.githubusercontent.com/52160164/130504983-e8d866a9-bf77-4e16-811d-5652993c003f.png)
+
+Checking the external IP
+
+**kubectl get service talent-management-portal**
+
+![image](https://user-images.githubusercontent.com/52160164/130506235-4803ca47-bc7a-412a-9b45-e56a0d1cb5eb.png)
+
+And open the external IP on new TAB
+
+![image](https://user-images.githubusercontent.com/52160164/130507069-ffa544cd-ec12-4f3d-b928-f8f858a1da62.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
