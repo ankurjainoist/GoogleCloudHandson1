@@ -110,7 +110,135 @@ exit**
 
 **unzip bootcamp-gcp-storage-clinic-mid-app.zip**
 
-**cd bootcamp-gcp-storage-clinic-mib-app**
+**cd bootcamp-gcp-storage-clinic-mid-app**
+
+![image](https://user-images.githubusercontent.com/52160164/131141190-4fbe96ab-5948-4d9b-88db-e57e94c00619.png)
+
+**Edit the file **
+
+From the folder bootcamp-gcp-storage-clinic-mid-app,
+run the following command to edit the file **index.js**
+
+**nano src/index.js**
+
+![image](https://user-images.githubusercontent.com/52160164/131141500-63e9cee0-c913-4514-a6d4-74a6f8002266.png)
+
+Inside file, in the middleware section replace
+
+**host:to the Private IP address of the database VM.**
+
+**user:to app,**
+
+**password: to welcome1**
+
+**database:to clinic**
+
+![image](https://user-images.githubusercontent.com/52160164/131142108-e0283702-7fa9-4819-8748-69ac3236b671.png)
+
+Now run the command, to install the NPM package inside the folder
+
+**npm install**
+
+![image](https://user-images.githubusercontent.com/52160164/131142326-14053eac-a94e-44a7-a402-4401eb6c1d66.png)
+
+# **Start the node.js application**
+
+**node src/index.js**
+
+![image](https://user-images.githubusercontent.com/52160164/131142583-18cbd2ef-c9dc-4a7a-99c8-64b73f7b0ff3.png)
+
+Default port for node.js is 3000 and as we have not allowed traffic in this port it will not open anything.
+
+Create the firewall rule to allow the TCP access on 3000 port, go to FIREWALL service in GCP portal and create new firewall rule
+
+![image](https://user-images.githubusercontent.com/52160164/131142857-131355a3-27e0-4a86-acbd-f18f54c1f426.png)
+
+![image](https://user-images.githubusercontent.com/52160164/131143162-e4fe34c5-460b-4884-83aa-3215cdfe1530.png)
+
+![image](https://user-images.githubusercontent.com/52160164/131143121-6611a96d-0339-48bd-9106-0285ff855c4f.png)
+
+Node JS application now started on port 3000
+
+http://35.203.190.66:3000/
+
+![image](https://user-images.githubusercontent.com/52160164/131153964-6651c475-a884-47dc-a6c2-db6ba932a08d.png)
+
+
+# **Now migrating the VM's using the Storage Snapshot**
+
+1. Create SNAPSHOT from disks of the VM's db-app01(DB VM) and usa-app01 (App VM)
+
+**gcloud compute disks snapshot db-app01 --snapshot-names usa-db01-snapshot --zone us-west1-b**
+
+**gcloud compute disks snapshot usa-app01 --snapshot-names usa-app01-snapshot --zone us-west1-b**
+
+![image](https://user-images.githubusercontent.com/52160164/131158226-bf7c60ea-9b47-4528-8fcb-a28263c06b79.png)
+
+Snapshots Created
+
+![image](https://user-images.githubusercontent.com/52160164/131158316-5a9982d2-354f-4534-b54d-8fd8be7e7b19.png)
+
+2. Create disks in Autralia Region australia-southeast1 using source as the above created snapshots created in US region
+
+**gcloud compute disks create aus-db01 --source-snapshot usa-db01-snapshot --zone australia-southeast1-a**
+
+**gcloud compute disks create aus-app01 --source-snapshot usa-app01-snapshot --zone australia-southeast1-a**
+
+![image](https://user-images.githubusercontent.com/52160164/131158795-3308e3ba-2bf5-431f-bcd5-04094368ed87.png)
+
+Australia Disk created
+
+![image](https://user-images.githubusercontent.com/52160164/131158873-d58da1d5-734e-4a09-afce-ef0615137bd9.png)
+
+3. Now creating instances in Sydney region, using source as the Disks created in previous step
+
+**gcloud compute instances create aus-app01 --machine-type e2-micro --zone australia-southeast1-a --disk name=aus-app01,boot=yes,mode=rw**
+
+**gcloud compute instances create aus-db01 --machine-type e2-micro --zone australia-southeast1-a --disk name=aus-db01,boot=yes,mode=rw**
+
+![image](https://user-images.githubusercontent.com/52160164/131159219-a1ff5a3b-c8aa-4428-9193-7a88f74bc267.png)
+
+Instances created
+
+![image](https://user-images.githubusercontent.com/52160164/131159270-288f7ef5-ad22-4b69-87b0-9fb146927fc9.png)
+
+4. Access aus-app01 via SSH and open folder of app
+
+![image](https://user-images.githubusercontent.com/52160164/131159485-60570255-27b1-4d23-9088-a57c6c3165ad.png)
+
+5. Edit index file and change Private IP of aus-db01
+
+**nano src/index.js**
+
+![image](https://user-images.githubusercontent.com/52160164/131159845-a7b6ed6c-9fa6-4a78-9ba6-ce0a4c3b658a.png)
+
+6. Start the node js application and access the application via port 3000 in browser
+
+![image](https://user-images.githubusercontent.com/52160164/131160020-c0359096-cfdd-46a1-a613-9db44bb79ccf.png)
+
+App opened in Aus region now **http://<external-ip-from-aus-app01:3000**
+
+![image](https://user-images.githubusercontent.com/52160164/131160134-c17790d3-26aa-4be8-996e-aec74df67e6b.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
