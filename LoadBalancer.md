@@ -128,6 +128,21 @@ Now check the IP address kidsflix-global-ip
 
 ![image](https://user-images.githubusercontent.com/52160164/131226126-67a3957a-1f34-447d-bf41-790311c1972e.png)
 
+Now on putting the IP from India IP, rout to US server
+
+![image](https://user-images.githubusercontent.com/52160164/131226462-ccfef05d-e3ac-4d06-a40f-f67b128e92a6.png)
+
+![image](https://user-images.githubusercontent.com/52160164/131226472-230cd808-7ecf-4aa3-975e-a45c03ee86eb.png)
+
+On changing the VPN to europe, it route to Europe server
+
+![image](https://user-images.githubusercontent.com/52160164/131227110-eb6cb436-f772-40ce-a947-3594c587da14.png)
+
+![image](https://user-images.githubusercontent.com/52160164/131227120-f5e41de5-1dff-49db-84c1-fd020e20ab87.png)
+
+![image](https://user-images.githubusercontent.com/52160164/131227114-27c586d9-5725-4bc3-a5fe-2c23b70c446e.png)
+
+
 
 
 
